@@ -5,6 +5,8 @@ const dotenv = require("dotenv")
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+const { stringReplace } = require('string-replace-middleware');
+const fs = require("fs");
 
 dotenv.config()
 
@@ -14,10 +16,20 @@ app.get("/clickstate", (req, res) => {
   res.send(states);
 });
 
+
+app.get("/client.js", (req, res) => {
+  fs.readFile("./public/client.js", 'utf8', (err, file) => {
+    console.log(file);
+     res.send(file.replace("CLIENTPORT", process.env.CLIENTPORT ? ":" + process.env.CLIENTPORT:"")
+     .replace("SERVERURL", process.env.SERVERURL));
+ });
+});
+
 app.use("/", express.static(__dirname + "/public"));
 
 server.listen(process.env.PORT);
 console.log("Your PORT via ENV:" + process.env.PORT);
+console.log("Your SERVERURL via ENV:" + process.env.SERVERURL);
 
 io.on("connection", (socket) => {
   console.log("Connected " + socket.id);
