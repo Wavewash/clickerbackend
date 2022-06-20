@@ -1,4 +1,4 @@
-const serverUrl = "https://clicky-backend.herokuapp.com/";
+const serverUrl = "https://clicky-backend.herokuapp.com";
 
 const myid = document.getElementById("myid");
 const statedisplay = document.getElementById("statedisplay");
