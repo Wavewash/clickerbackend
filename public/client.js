@@ -1,31 +1,43 @@
-const socket = io.connect("https://clicky-backend.herokuapp.com/");
+const serverUrl = "https://tr5qqn.sse.codesandbox.io/";
 
+const socket = new io.Socket();
+socket.on("getState", (states) => {
+  console.log("getState");
+  statedisplay.innerHTML = "";
+  states.forEach((message) => {
+    const messageItem = document.createElement("li");
+    messageItem.innerText = message;
+    statedisplay.appendChild(messageItem);
+  });
+});
+//socket.connect(serverUrl);
+
+const myid = document.getElementById("myid");
 const statedisplay = document.getElementById("statedisplay");
 const stateInput = document.getElementById("message-input");
-const sendButton = document.getElementById("send-button");
+const sendForm = document.getElementById("send-form");
+const clearBtn = document.getElementById("clearBtn");
 
-var id;
+sendForm.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-socket.on("getState", message => {
-  const messageItem = document.createElement("li");
-  messageItem.innerText = message;
-  statedisplay.appendChild(messageItem);
-});
-
-socket.on("registerId", myId => {
-  id = myId;
-})
-
-sendButton.addEventListener("click", () => {
-  const state = {"id":id, "value":stateInput.value};
+  const state = { id: socket.id, value: stateInput.value };
   socket.emit("distributeState", state);
+
+  myid.textContent = socket.id;
+  stateInput.value = "";
 });
 
-window.onload = function() {
-  fetch("https://puffy-abiding-millennium.glitch.me/clickstate")
-    .then(res => res.json())
-    .then(clickerstates => {
-      clickerstates.forEach(cstate => {
+clearBtn.addEventListener("click", (e) => {
+  console.log("clear");
+  socket.emit("clearStates", true);
+});
+
+window.onload = function () {
+  fetch(serverUrl)
+    .then((res) => res.json())
+    .then((clickerstates) => {
+      clickerstates.forEach((cstate) => {
         const cstateItem = document.createElement("li");
         cstateItem.innerText = cstate;
         statedisplay.appendChild(cstateItem);
