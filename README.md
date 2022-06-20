@@ -1,2 +1,0 @@
-# clickerbackend
-Ding dang backend
