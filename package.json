@@ -12,6 +12,7 @@
     "watch": "watch"
   },
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.17.1",
     "socket.io": "^2.2.0",
     "uuidv4": "^6.2.13"
