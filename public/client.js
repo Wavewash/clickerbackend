@@ -1,4 +1,4 @@
-const socket = io.connect("https://puffy-abiding-millennium.glitch.me");
+const socket = io.connect("https://clicky-backend.herokuapp.com/");
 
 const statedisplay = document.getElementById("statedisplay");
 const stateInput = document.getElementById("message-input");
